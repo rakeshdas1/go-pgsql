@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 type task struct {
@@ -40,7 +39,6 @@ func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 			&t.numberOfFilesUploaded, &t.totalNumberOfFiles, &t.uploadedSize, &t.totalSize, &t.transferSpeed, &t.transferSpeed); err != nil {
 			return nil, err
 		}
-		fmt.Println(t)
 		tasks = append(tasks, t)
 	}
 	return tasks, nil

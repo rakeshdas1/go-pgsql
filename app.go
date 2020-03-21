@@ -57,6 +57,8 @@ func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 	}
+	fmt.Println("Getting all tasks...")
+	fmt.Printf("%+v\n", tasks)
 	respondWithJson(w, http.StatusOK, tasks)
 }
 func (a *App) initializeRoutes() {
@@ -68,6 +70,7 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 }
 func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
+	fmt.Printf("%+v\n", payload)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(response)
