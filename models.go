@@ -6,7 +6,7 @@ import (
 
 type task struct {
 	Completed             bool   `json:"completed"`
-	ID                    int    `json:"task_id"`
+	TaskID                int    `json:"task_id"`
 	Source                string `json:"source"`
 	Destination           string `json:"destination"`
 	ElapsedTime           string `json:"elapsed_time"`
@@ -23,8 +23,8 @@ type task struct {
 	Percentage            string `json:"percentage"`
 }
 
-func (t *task) getTask(db *sql.DB) error {
-	return db.QueryRow("SELECT * FROM backups.tasks WHERE task_id=$1", 36).Scan(&t.Completed, &t.ID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage)
+func (t *task) getTask(db *sql.DB, taskID int) error {
+	return db.QueryRow("SELECT * FROM backups.tasks WHERE task_id=$1", taskID).Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage)
 }
 func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 	rows, err := db.Query("SELECT * FROM backups.tasks")
@@ -35,7 +35,7 @@ func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 	tasks := []task{}
 	for rows.Next() {
 		var t task
-		if err := rows.Scan(&t.Completed, &t.ID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage); err != nil {
+		if err := rows.Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage); err != nil {
 			return nil, err
 		}
 		tasks = append(tasks, t)

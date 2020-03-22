@@ -40,8 +40,8 @@ func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid task ID")
 		return
 	}
-	t := task{ID: id}
-	if err := t.getTask(a.DB); err != nil {
+	t := task{}
+	if err := t.getTask(a.DB, id); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			respondWithError(w, http.StatusNotFound, "Task not found")
