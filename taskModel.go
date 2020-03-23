@@ -34,11 +34,11 @@ func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 	defer rows.Close()
 	tasks := []task{}
 	for rows.Next() {
-		var t task
+		var currentTask task
 		if err := rows.Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage); err != nil {
 			return nil, err
 		}
-		tasks = append(tasks, t)
+		tasks = append(tasks, currentTask)
 	}
 	return tasks, nil
 }

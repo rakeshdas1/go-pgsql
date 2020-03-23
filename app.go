@@ -60,14 +60,6 @@ func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusOK, tasks)
 }
-func (a *App) getAllFiles(w http.ResponseWriter, r *http.Request) {
-	f := file{}
-	files, err := f.getAllFiles(a.DB)
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
-	}
-	respondWithJSON(w, http.StatusOK, files)
-}
 func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
 	vars := r.URL.Query()
 	ID, err := strconv.Atoi(vars.Get("file_id"))
@@ -86,6 +78,33 @@ func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusOK, f)
 }
+func (a *App) getAllFiles(w http.ResponseWriter, r *http.Request) {
+	f := file{}
+	files, err := f.getAllFiles(a.DB)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+	respondWithJSON(w, http.StatusOK, files)
+}
+func (a *App) getFilesByTask(w http.ResponseWriter, r *http.Request) {
+	vars := r.URL.Query()
+	TaskID, err := strconv.Atoi(vars.Get("task_id"))
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	tf := taskFile{}
+	taskFilesForID, err := tf.getTaskFilesByID(a.DB, TaskID)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "Task ID not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+	}
+	respondWithJSON(w, http.StatusOK, taskFilesForID)
+}
 func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 	var message string = "Hit an endpoint such as /tasks or /task/{id} to retrieve data"
 	w.WriteHeader(http.StatusOK)
@@ -97,6 +116,7 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/task", a.getTask).Methods("GET")
 	a.Router.HandleFunc("/files", a.getAllFiles).Methods("GET")
 	a.Router.HandleFunc("/file", a.getFile).Methods("GET")
+	a.Router.HandleFunc("/filesByTask", a.getFilesByTask).Methods("GET")
 	a.Router.HandleFunc("/", a.getRoot).Methods("GET")
 }
 func respondWithError(w http.ResponseWriter, code int, message string) {
