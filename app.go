@@ -35,8 +35,8 @@ func (a *App) Run(addr string) {
 }
 
 func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	vars := r.URL.Query()
+	id, err := strconv.Atoi(vars.Get("task_id"))
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid task ID")
 		return
@@ -69,8 +69,8 @@ func (a *App) getAllFiles(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, files)
 }
 func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	ID, err := strconv.Atoi(vars["id"])
+	vars := r.URL.Query()
+	ID, err := strconv.Atoi(vars.Get("file_id"))
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
@@ -94,9 +94,9 @@ func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 }
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/tasks", a.getAllTasks).Methods("GET")
-	a.Router.HandleFunc("/task/{id:[0-9]+}", a.getTask).Methods("GET")
+	a.Router.HandleFunc("/task", a.getTask).Methods("GET")
 	a.Router.HandleFunc("/files", a.getAllFiles).Methods("GET")
-	a.Router.HandleFunc("/file/{id:[0-9]+}", a.getFile).Methods("GET")
+	a.Router.HandleFunc("/file", a.getFile).Methods("GET")
 	a.Router.HandleFunc("/", a.getRoot).Methods("GET")
 }
 func respondWithError(w http.ResponseWriter, code int, message string) {
