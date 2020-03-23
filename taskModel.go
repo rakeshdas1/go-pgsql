@@ -23,7 +23,7 @@ type task struct {
 	Percentage            string `json:"percentage"`
 }
 
-func (t *task) getTask(db *sql.DB, taskID int) error {
+func (t *task) getTaskByID(db *sql.DB, taskID int) error {
 	return db.QueryRow("SELECT * FROM backups.tasks WHERE task_id=$1", taskID).Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage)
 }
 func (t *task) getAllTasks(db *sql.DB) ([]task, error) {

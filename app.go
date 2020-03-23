@@ -42,7 +42,7 @@ func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	t := task{}
-	if err := t.getTask(a.DB, id); err != nil {
+	if err := t.getTaskByID(a.DB, id); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			respondWithError(w, http.StatusNotFound, "Task not found")
@@ -60,6 +60,32 @@ func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusOK, tasks)
 }
+func (a *App) getAllFiles(w http.ResponseWriter, r *http.Request) {
+	f := file{}
+	files, err := f.getAllFiles(a.DB)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+	respondWithJSON(w, http.StatusOK, files)
+}
+func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	ID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	f := file{}
+	if err := f.getFileById(a.DB, ID); err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			respondWithError(w, http.StatusNotFound, "File not found")
+		default:
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+	}
+	respondWithJSON(w, http.StatusOK, f)
+}
 func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 	var message string = "Hit an endpoint such as /tasks or /task/{id} to retrieve data"
 	w.WriteHeader(http.StatusOK)
@@ -69,6 +95,8 @@ func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/tasks", a.getAllTasks).Methods("GET")
 	a.Router.HandleFunc("/task/{id:[0-9]+}", a.getTask).Methods("GET")
+	a.Router.HandleFunc("/files", a.getAllFiles).Methods("GET")
+	a.Router.HandleFunc("/file/{id:[0-9]+}", a.getFile).Methods("GET")
 	a.Router.HandleFunc("/", a.getRoot).Methods("GET")
 }
 func respondWithError(w http.ResponseWriter, code int, message string) {
