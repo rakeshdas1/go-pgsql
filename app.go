@@ -27,6 +27,7 @@ func (a *App) Initialize(user, password, dbname string) {
 
 	a.Router = mux.NewRouter()
 	a.initializeRoutes()
+	log.Println("Running server on http://localhost:8010")
 }
 
 func (a *App) Run(addr string) {
@@ -49,7 +50,7 @@ func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
 			respondWithError(w, http.StatusInternalServerError, err.Error())
 		}
 	}
-	respondWithJson(w, http.StatusOK, t)
+	respondWithJSON(w, http.StatusOK, t)
 }
 func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	t := task{}
@@ -57,16 +58,23 @@ func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 	}
-	respondWithJson(w, http.StatusOK, tasks)
+	respondWithJSON(w, http.StatusOK, tasks)
+}
+func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
+	var message string = "Hit an endpoint such as /tasks or /task/{id} to retrieve data"
+	w.WriteHeader(http.StatusOK)
+	response, _ := json.Marshal(message)
+	w.Write(response)
 }
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/tasks", a.getAllTasks).Methods("GET")
 	a.Router.HandleFunc("/task/{id:[0-9]+}", a.getTask).Methods("GET")
+	a.Router.HandleFunc("/", a.getRoot).Methods("GET")
 }
 func respondWithError(w http.ResponseWriter, code int, message string) {
-	respondWithJson(w, code, map[string]string{"error": message})
+	respondWithJSON(w, code, map[string]string{"error": message})
 }
-func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
+func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
