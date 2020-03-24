@@ -27,11 +27,11 @@ func (f *file) getAllFiles(db *sql.DB) ([]file, error) {
 	defer rows.Close()
 	files := []file{}
 	for rows.Next() {
-		var f file
-		if err := rows.Scan(&f.FileID, &f.FileName, &f.UploadedSize, &f.Percentage, &f.Eta, &f.FileSize, &f.TransferSpeed, &f.TaskID); err != nil {
+		var currentFile file
+		if err := rows.Scan(&currentFile.FileID, &currentFile.FileName, &currentFile.UploadedSize, &currentFile.Percentage, &currentFile.Eta, &currentFile.FileSize, &currentFile.TransferSpeed, &currentFile.TaskID); err != nil {
 			return nil, err
 		}
-		files = append(files, f)
+		files = append(files, currentFile)
 	}
 	return files, nil
 }

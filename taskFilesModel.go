@@ -35,7 +35,7 @@ func (tf *taskFile) getTaskFilesByID(db *sql.DB, taskID int) ([]taskFile, error)
 	taskFiles := []taskFile{}
 	for rows.Next() {
 		var currentTaskFile taskFile
-		if err := rows.Scan(&tf.TaskCompleted, &tf.FileID, &tf.FileName, &tf.FilePercentage, &tf.FileEta, &tf.FileSize, &tf.FileTransferSpeed, &tf.TaskEta, &tf.TaskElapsedTime, &tf.TaskStartedAt, &tf.TaskEndedAt, &tf.TaskNumberOfChecksDone, &tf.TaskTotalNumberOfChecks, &tf.TaskNumberOfFilesUploaded, &tf.TaskTotalNumberOfFiles, &tf.TaskUploadedSize, &tf.TaskTotalSize, &tf.TaskTransferSpeed, &tf.TaskPercentage); err != nil {
+		if err := rows.Scan(&currentTaskFile.TaskCompleted, &currentTaskFile.FileID, &currentTaskFile.FileName, &currentTaskFile.FilePercentage, &currentTaskFile.FileEta, &currentTaskFile.FileSize, &currentTaskFile.FileTransferSpeed, &currentTaskFile.TaskEta, &currentTaskFile.TaskElapsedTime, &currentTaskFile.TaskStartedAt, &currentTaskFile.TaskEndedAt, &currentTaskFile.TaskNumberOfChecksDone, &currentTaskFile.TaskTotalNumberOfChecks, &currentTaskFile.TaskNumberOfFilesUploaded, &currentTaskFile.TaskTotalNumberOfFiles, &currentTaskFile.TaskUploadedSize, &currentTaskFile.TaskTotalSize, &currentTaskFile.TaskTransferSpeed, &currentTaskFile.TaskPercentage); err != nil {
 			return nil, err
 		}
 		taskFiles = append(taskFiles, currentTaskFile)
