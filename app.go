@@ -52,6 +52,13 @@ func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusOK, t)
 }
+func (a *App) getLastRunTask(w http.ResponseWriter, r *http.Request) {
+	t := task{}
+	if err := t.getLastRunTask(a.DB); err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+	respondWithJSON(w, http.StatusOK, t)
+}
 func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	t := task{}
 	tasks, err := t.getAllTasks(a.DB)
@@ -114,6 +121,7 @@ func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/tasks", a.getAllTasks).Methods("GET")
 	a.Router.HandleFunc("/task", a.getTask).Methods("GET")
+	a.Router.HandleFunc("/lastRunTask", a.getLastRunTask).Methods("GET")
 	a.Router.HandleFunc("/files", a.getAllFiles).Methods("GET")
 	a.Router.HandleFunc("/file", a.getFile).Methods("GET")
 	a.Router.HandleFunc("/filesByTask", a.getFilesByTask).Methods("GET")

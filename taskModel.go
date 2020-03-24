@@ -26,6 +26,9 @@ type task struct {
 func (t *task) getTaskByID(db *sql.DB, taskID int) error {
 	return db.QueryRow("SELECT * FROM backups.tasks WHERE task_id=$1", taskID).Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage)
 }
+func (t *task) getLastRunTask(db *sql.DB) error {
+	return db.QueryRow("SELECT * FROM backups.tasks ORDER BY task_id DESC LIMIT 1").Scan(&t.Completed, &t.TaskID, &t.Source, &t.Destination, &t.ElapsedTime, &t.StartedAt, &t.EndedAt, &t.Eta, &t.NumberOfChecksDone, &t.TotalNumberOfChecks, &t.NumberOfFilesUploaded, &t.TotalNumberOfFiles, &t.UploadedSize, &t.TotalSize, &t.TransferSpeed, &t.Percentage)
+}
 func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 	rows, err := db.Query("SELECT * FROM backups.tasks ORDER BY task_id DESC")
 	if err != nil {
