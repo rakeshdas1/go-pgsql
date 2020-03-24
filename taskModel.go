@@ -45,3 +45,19 @@ func (t *task) getAllTasks(db *sql.DB) ([]task, error) {
 	}
 	return tasks, nil
 }
+func (t *task) getNTasks(db *sql.DB, num int) ([]task, error) {
+	rows, err := db.Query("SELECT * FROM backups.tasks ORDER BY task_id DESC LIMIT $1", num)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	tasks := []task{}
+	for rows.Next() {
+		var currentTask task
+		if err := rows.Scan(&currentTask.Completed, &currentTask.TaskID, &currentTask.Source, &currentTask.Destination, &currentTask.ElapsedTime, &currentTask.StartedAt, &currentTask.EndedAt, &currentTask.Eta, &currentTask.NumberOfChecksDone, &currentTask.TotalNumberOfChecks, &currentTask.NumberOfFilesUploaded, &currentTask.TotalNumberOfFiles, &currentTask.UploadedSize, &currentTask.TotalSize, &currentTask.TransferSpeed, &currentTask.Percentage); err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, currentTask)
+	}
+	return tasks, nil
+}

@@ -51,6 +51,7 @@ func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	respondWithJSON(w, http.StatusOK, t)
+
 }
 func (a *App) getLastRunTask(w http.ResponseWriter, r *http.Request) {
 	t := task{}
@@ -60,12 +61,27 @@ func (a *App) getLastRunTask(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, t)
 }
 func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
+	vars := r.URL.Query()
 	t := task{}
-	tasks, err := t.getAllTasks(a.DB)
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
+	if numOfTasksParam, ok := vars["num"]; ok {
+		fmt.Printf("%+v", numOfTasksParam[0])
+		numOfTasks, err := strconv.Atoi(vars.Get("num"))
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, "Invalid number of tasks")
+			return
+		}
+		tasks, err := t.getNTasks(a.DB, numOfTasks)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		respondWithJSON(w, http.StatusOK, tasks)
+	} else {
+		tasks, err := t.getAllTasks(a.DB)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+		}
+		respondWithJSON(w, http.StatusOK, tasks)
 	}
-	respondWithJSON(w, http.StatusOK, tasks)
 }
 func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
 	vars := r.URL.Query()
