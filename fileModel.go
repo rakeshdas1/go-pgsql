@@ -5,14 +5,14 @@ import (
 )
 
 type file struct {
-	FileID        int    `json:"file_id"`
-	FileName      string `json:"file_name"`
-	UploadedSize  string `json:"uploaded_size"`
+	FileID        int    `json:"fileId"`
+	FileName      string `json:"fileName"`
+	UploadedSize  string `json:"uploadedSize"`
 	Percentage    string `json:"percentage"`
 	Eta           string `json:"eta"`
-	FileSize      string `json:"file_size"`
-	TransferSpeed string `json:"transfer_speed"`
-	TaskID        int    `json:"task_id"`
+	FileSize      string `json:"fileSize"`
+	TransferSpeed string `json:"transferSpeed"`
+	TaskID        int    `json:"taskId"`
 }
 
 func (f *file) getFileById(db *sql.DB, fileID int) error {

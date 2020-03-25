@@ -6,20 +6,20 @@ import (
 
 type task struct {
 	Completed             bool   `json:"completed"`
-	TaskID                int    `json:"task_id"`
+	TaskID                int    `json:"taskId"`
 	Source                string `json:"source"`
 	Destination           string `json:"destination"`
-	ElapsedTime           string `json:"elapsed_time"`
-	StartedAt             string `json:"started_at"`
-	EndedAt               string `json:"ended_at"`
+	ElapsedTime           string `json:"elapsedTime"`
+	StartedAt             string `json:"startedAt"`
+	EndedAt               string `json:"endedAt"`
 	Eta                   string `json:"eta"`
-	NumberOfChecksDone    string `json:"number_of_checks_done"`
-	TotalNumberOfChecks   string `json:"total_number_of_checks"`
-	NumberOfFilesUploaded string `json:"number_of_files_uploaded"`
-	TotalNumberOfFiles    string `json:"total_number_of_files"`
-	UploadedSize          string `json:"uploaded_size"`
-	TotalSize             string `json:"total_size"`
-	TransferSpeed         string `json:"transfer_speed"`
+	NumberOfChecksDone    string `json:"numberOfChecksDone"`
+	TotalNumberOfChecks   string `json:"totalNumberOfChecks"`
+	NumberOfFilesUploaded string `json:"numberOfFilesUploaded"`
+	TotalNumberOfFiles    string `json:"totalNumberOfFiles"`
+	UploadedSize          string `json:"uploadedSize"`
+	TotalSize             string `json:"totalSize"`
+	TransferSpeed         string `json:"transferSpeed"`
 	Percentage            string `json:"percentage"`
 }
 
