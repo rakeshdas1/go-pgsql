@@ -63,13 +63,7 @@ func (a *App) getLastRunTask(w http.ResponseWriter, r *http.Request) {
 func (a *App) getAllTasks(w http.ResponseWriter, r *http.Request) {
 	vars := r.URL.Query()
 	t := task{}
-	if numOfTasksParam, ok := vars["num"]; ok {
-		fmt.Printf("%+v", numOfTasksParam[0])
-		numOfTasks, err := strconv.Atoi(vars.Get("num"))
-		if err != nil {
-			respondWithError(w, http.StatusBadRequest, "Invalid number of tasks")
-			return
-		}
+	if numOfTasks, err := strconv.Atoi(vars.Get("num")); err == nil {
 		tasks, err := t.getNTasks(a.DB, numOfTasks)
 		if err != nil {
 			respondWithError(w, http.StatusInternalServerError, err.Error())
