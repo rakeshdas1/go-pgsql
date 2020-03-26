@@ -1,5 +1,5 @@
 export interface TaskModel {
-    completed: string;
+    completed: boolean;
     taskId: number;
     source: string;
     destination: string;
