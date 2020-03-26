@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
@@ -31,7 +32,13 @@ func (a *App) Initialize(user, password, dbname string) {
 }
 
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8010", a.Router))
+	allowedHeaders := []string{"X-Requested-With", "Content-Type"}
+	allowedMethods := []string{"GET"}
+	allowOrigins := []string{"*"}
+	handlerHeaders := handlers.AllowedHeaders(allowedHeaders)
+	handlerMethods := handlers.AllowedMethods(allowedMethods)
+	handlerOrigins := handlers.AllowedOrigins(allowOrigins)
+	log.Fatal(http.ListenAndServe(":8010", handlers.CORS(handlerHeaders, handlerMethods, handlerOrigins)(a.Router)))
 }
 
 func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
