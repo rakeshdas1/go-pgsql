@@ -1,4 +1,4 @@
-export interface fileModel {
+export interface FileModel {
     fileId: number;
     fileName: string;
     uploadedSize: string;
