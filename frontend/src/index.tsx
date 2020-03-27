@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Task from './components/Task/Task'
 import * as serviceWorker from './serviceWorker';
+import TaskPageComponent from './components/TaskPage/TaskPage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Task />
+    <TaskPageComponent />
   </React.StrictMode>,
   document.getElementById('root')
 );
