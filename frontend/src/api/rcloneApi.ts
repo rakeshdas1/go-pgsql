@@ -9,7 +9,7 @@ export const getLastRunTask = async (): Promise<TaskModel> => {
     return await res.json()
 }
 export const getNTasks = async (numOfTasks: number): Promise<TaskModel[]> => {
-    const res = await fetch(`${apiUrl}/tasks/num=${numOfTasks}`);
+    const res = await fetch(`${apiUrl}/tasks?num=${numOfTasks}`);
     return await res.json();
 }
 export const getTask = async (taskId: number): Promise<TaskModel> => {

@@ -16,9 +16,9 @@ export const TaskComponent: React.SFC<TaskComponentInputProps> = (props) => {
                 <h3>Size: {props.task?.totalSize}</h3>
                 <h3>Files: {props.task?.totalNumberOfChecks}</h3>
             </div>
+            <hr></hr>
         </div>
-    )
+    );
 
 };
-
 export default TaskComponent;
