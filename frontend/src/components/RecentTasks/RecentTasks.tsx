@@ -19,7 +19,10 @@ export const RecentTasksComponent: React.SFC<RecentTasksComponentProps> = (props
         const accContent:AccordionContentProps = <TaskComponent task={task}></TaskComponent>
         return {
             key: `panel-${idx}`,
-            title: task.taskId,
+            title: {
+                content: task.taskId,
+                icon: 'checkmark',
+            },
             content: {content:accContent}
         }
     });
