@@ -1,5 +1,4 @@
 import { useState,useEffect } from "react";
-import './TaskPage.css'
 import { TaskModel } from "../../models/Task.model";
 import React from "react";
 import { getLastRunTask, getNTasks } from "../../api/rcloneApi";

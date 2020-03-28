@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
-import TaskPageComponent from './components/TaskPage/TaskPage';
+import TaskPageComponent from './components/OverviewPage/OverviewPage';
+import { TaskDetailsComponent } from './components/TaskDetails/TaskDetails';
 
 ReactDOM.render(
   <React.StrictMode>
     <Container>
-      <TaskPageComponent />
+      {/* <TaskPageComponent /> */}
+      <TaskDetailsComponent/>
     </Container>
   </React.StrictMode>,
   document.getElementById('root')

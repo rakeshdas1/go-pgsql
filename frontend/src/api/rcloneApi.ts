@@ -13,7 +13,7 @@ export const getNTasks = async (numOfTasks: number): Promise<TaskModel[]> => {
     return await res.json();
 }
 export const getTask = async (taskId: number): Promise<TaskModel> => {
-    const res = await fetch(`${apiUrl}/tasks/task_id=${taskId}`);
+    const res = await fetch(`${apiUrl}/tasks?task_id=${taskId}`);
     return await res.json();
 }
 export const getAllTasks = async (): Promise<TaskModel[]> => {
@@ -21,10 +21,10 @@ export const getAllTasks = async (): Promise<TaskModel[]> => {
     return await res.json();
 }
 export const getFile = async (fileId: number): Promise<FileModel> => {
-    const res = await fetch(`${apiUrl}/files/file_id=${fileId}`);
+    const res = await fetch(`${apiUrl}/files?file_id=${fileId}`);
     return await res.json();
 }
-export const getFilesForTask = async (taskId: number): Promise<TaskFilesModel[]> => {
-    const res = await fetch(`${apiUrl}/filesByTask/task_id=${taskId}`);
+export const getFilesForTask = async (taskId?: number): Promise<TaskFilesModel[]> => {
+    const res = await fetch(`${apiUrl}/filesByTask?task_id=${taskId}`);
     return await res.json();
 }
