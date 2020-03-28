@@ -4,6 +4,7 @@ import { TaskModel } from "../../models/Task.model";
 import React from "react";
 import { getLastRunTask, getNTasks } from "../../api/rcloneApi";
 import TaskComponent from "../Task/Task";
+import RecentTasksComponent from "../RecentTasks/RecentTasks";
 
 export const TaskPageComponent = () => {
     const [latestTask, setLatestTask] = useState<TaskModel>();
@@ -22,10 +23,10 @@ export const TaskPageComponent = () => {
     },[])
     return (
         <div className="task-page">
+            <h1>Last run task: </h1>
             <TaskComponent task={latestTask}></TaskComponent>
-            {recentTasks?.map(task => {
-                return <TaskComponent task={task}></TaskComponent>;
-            })}
+            <h1>Recent tasks run:</h1>
+            <RecentTasksComponent recentTasks ={recentTasks}></RecentTasksComponent>
         </div>
     )
 }
