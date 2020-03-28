@@ -25,6 +25,7 @@ export const TaskPageComponent = () => {
         <div className="task-page">
             <h1>Last run task: </h1>
             <TaskComponent task={latestTask}></TaskComponent>
+            <hr></hr>
             <h1>Recent tasks run:</h1>
             <RecentTasksComponent recentTasks ={recentTasks}></RecentTasksComponent>
         </div>
