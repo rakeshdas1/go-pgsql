@@ -15,7 +15,7 @@ type file struct {
 	TaskID        int    `json:"taskId"`
 }
 
-func (f *file) getFileById(db *sql.DB, fileID int) error {
+func (f *file) getFileByID(db *sql.DB, fileID int) error {
 	return db.QueryRow("SELECT * FROM backups.files WHERE file_id=$1", fileID).Scan(&f.FileID, &f.FileName, &f.UploadedSize, &f.Percentage, &f.Eta, &f.FileSize, &f.TransferSpeed, &f.TaskID)
 }
 

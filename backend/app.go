@@ -92,7 +92,7 @@ func (a *App) getFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	f := file{}
-	if err := f.getFileById(a.DB, ID); err != nil {
+	if err := f.getFileByID(a.DB, ID); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			respondWithError(w, http.StatusNotFound, "File not found")
