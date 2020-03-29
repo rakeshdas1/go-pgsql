@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { TaskModel } from "../../models/Task.model"
 import { getFilesForTask, getTask } from '../../api/rcloneApi';
-import { Header, Grid, Icon, Popup } from 'semantic-ui-react';
+import { Header, Grid, Icon, Popup, Container } from 'semantic-ui-react';
 import { TaskFilesModel } from '../../models/TaskFiles.model';
+import FileDetailsComponent from './FilesTable';
 
 export const TaskDetailsComponent = () => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<TaskFilesModel[]>([]);
     useEffect(() => {
-        getTask(99)
-            .then(data => console.log("task", data))
+        getTask(98)
+            .then(data => {
+                setTask(data);
+                getFilesForTask(data.taskId)
+                    .then(data => setTaskFiles(data));
+            })
     }, []);
-    useEffect(() => {
-        getFilesForTask(104)
-            .then(data => console.log(data))
-    }, [])
     const epochToLocalTime = (epochTime?: string):Date => {
         let d: Date = new Date(0);
         let epochSeconds:number = Number(epochTime);
@@ -49,7 +50,8 @@ export const TaskDetailsComponent = () => {
                         <Header size='medium'><Icon name='cloud upload'/>Destination: {task?.destination}</Header>
                         <Header size='medium'><Icon name='file'/>Number of files: {task?.totalNumberOfChecks}</Header>
                         {startAndEndTimeItems(task?.startedAt, task?.endedAt)}
-                        
+                        <Header size='medium'>File details:</Header>
+                        <FileDetailsComponent files={taskFiles}></FileDetailsComponent>
                     </div>
                 </Grid.Row>
             </Grid>

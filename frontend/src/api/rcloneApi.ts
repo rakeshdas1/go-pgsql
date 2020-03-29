@@ -13,7 +13,7 @@ export const getNTasks = async (numOfTasks: number): Promise<TaskModel[]> => {
     return await res.json();
 }
 export const getTask = async (taskId: number): Promise<TaskModel> => {
-    const res = await fetch(`${apiUrl}/tasks?task_id=${taskId}`);
+    const res = await fetch(`${apiUrl}/task?task_id=${taskId}`);
     return await res.json();
 }
 export const getAllTasks = async (): Promise<TaskModel[]> => {
