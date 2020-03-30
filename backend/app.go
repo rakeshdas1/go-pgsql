@@ -117,8 +117,9 @@ func (a *App) getFilesByTask(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	tf := taskFile{}
-	taskFilesForID, err := tf.getTaskFilesByID(a.DB, TaskID)
+	// tf := taskFile{}
+	f := file{}
+	taskFilesForID, err := f.getFilesByTaskID(a.DB, TaskID)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
