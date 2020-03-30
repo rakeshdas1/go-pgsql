@@ -1,6 +1,6 @@
 import React from 'react';
 import { TaskFilesModel } from '../../models/TaskFiles.model';
-import { Table } from 'semantic-ui-react';
+import { Table, Icon } from 'semantic-ui-react';
 
 interface FileDetailsComponentProps{
     files: TaskFilesModel[];
@@ -10,9 +10,9 @@ export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props)
             <Table celled striped>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Files</Table.HeaderCell>
-                        <Table.HeaderCell>Transfer Speed</Table.HeaderCell>
-                        <Table.HeaderCell>File Size</Table.HeaderCell>
+                        <Table.HeaderCell><Icon name='save'/>File Name</Table.HeaderCell>
+                        <Table.HeaderCell><Icon name='file'/>Transfer Speed</Table.HeaderCell>
+                        <Table.HeaderCell><Icon name='database'/>File Size</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

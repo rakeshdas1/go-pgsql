@@ -9,7 +9,7 @@ export const TaskDetailsComponent = () => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<TaskFilesModel[]>([]);
     useEffect(() => {
-        getTask(98)
+        getTask(107)
             .then(data => {
                 setTask(data);
                 getFilesForTask(data.taskId)
