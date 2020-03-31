@@ -4,12 +4,13 @@ import { getFilesForTask, getTask } from '../../api/rcloneApi';
 import { Header, Grid, Icon, Popup, Container } from 'semantic-ui-react';
 import { TaskFilesModel } from '../../models/TaskFiles.model';
 import FileDetailsComponent from './FilesTable';
+import './TaskDetails.css';
 
 export const TaskDetailsComponent = () => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<TaskFilesModel[]>([]);
     useEffect(() => {
-        getTask(107)
+        getTask(113)
             .then(data => {
                 setTask(data);
                 getFilesForTask(data.taskId)
@@ -27,15 +28,17 @@ export const TaskDetailsComponent = () => {
         const endTimeDate:Date = epochToLocalTime(endTime);
         return (
             <div>
-                <Header size='medium'>
-                    <Popup content={startTimeDate.toLocaleDateString()}
-                    trigger={<Icon name='clock'/>}/>
-                    Started task: {startTimeDate.toLocaleTimeString()}
+                <Header size='medium' className="dateTimes">
+                <Icon name='clock'/>
+                    Started task: 
+                    <Popup content={startTimeDate.toString()}
+                    trigger={<p> {startTimeDate.toLocaleTimeString()}</p>}/>     
                 </Header>
-                <Header size='medium'>
-                    <Popup content={endTimeDate.toLocaleDateString()}
-                    trigger={<Icon name='clock'/>}/>
-                    Ended task: {endTimeDate.toLocaleTimeString()}
+                <Header size='medium' className="dateTimes">
+                <Icon name='clock'/>
+                    Ended task: 
+                    <Popup content={endTimeDate.toString()}
+                    trigger={<p> {endTimeDate.toLocaleTimeString()}</p>}/>     
                 </Header>
             </div>
         );
