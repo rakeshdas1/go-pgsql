@@ -1,9 +1,9 @@
 import React from 'react';
-import { TaskFilesModel } from '../../models/TaskFiles.model';
 import { Table, Icon } from 'semantic-ui-react';
+import { FileModel } from '../../models/File.model';
 
 interface FileDetailsComponentProps{
-    files: TaskFilesModel[];
+    files: FileModel[];
 }
 export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props) => {
         return (
@@ -17,10 +17,11 @@ export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props)
                 </Table.Header>
                 <Table.Body>
                     {props.files.map(file => {
+                        console.log(file)
                         return(
                             <Table.Row key={file.fileId}>
                                 <Table.Cell>{file.fileName}</Table.Cell>
-                                <Table.Cell>{file.fileTransferSpeed}</Table.Cell>
+                                <Table.Cell>{file.transferSpeed}</Table.Cell>
                                 <Table.Cell textAlign='right'>{file.fileSize}</Table.Cell>
                             </Table.Row>
                         )
