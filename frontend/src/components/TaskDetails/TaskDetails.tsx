@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TaskModel } from "../../models/Task.model"
 import { getFilesForTask, getTask } from '../../api/rcloneApi';
-import { Header, Grid, Icon, Popup, Container } from 'semantic-ui-react';
+import { Header, Grid, Icon, Popup } from 'semantic-ui-react';
 import FileDetailsComponent from './FilesTable';
 import './TaskDetails.css';
 import { FileModel } from '../../models/File.model';
@@ -10,7 +10,7 @@ export const TaskDetailsComponent = () => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<FileModel[]>([]);
     useEffect(() => {
-        getTask(113)
+        getTask(104)
             .then(data => {
                 setTask(data);
                 getFilesForTask(data.taskId)
