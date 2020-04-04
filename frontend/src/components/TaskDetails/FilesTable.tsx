@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Icon } from 'semantic-ui-react';
+import { Table, Icon, Select } from 'semantic-ui-react';
 import { FileModel } from '../../models/File.model';
 import './FilesTable.css';
 
@@ -83,28 +83,36 @@ const getFileIcon = (fileName: string) => {
         
     }
 }
+const viewOptions = [
+    {key: '50', text: '50', value: '50'},
+    {key: '100', text: '100', value: '100'},
+    {key: '150', text: '150', value: '150'}
+]
 export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props) => {
         return (
-            <Table celled striped padded>
-                <Table.Header >
-                    <Table.Row>
-                        <Table.HeaderCell width={12}><Icon name='save'/>File Name</Table.HeaderCell>
-                        <Table.HeaderCell width={2}><Icon name='file'/>Transfer Speed</Table.HeaderCell>
-                        <Table.HeaderCell width={2}><Icon name='database'/>File Size</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {props.files.map(file => {
-                        return(
-                            <Table.Row key={file.fileId}>
-                                <Table.Cell>{getFileIcon(file.fileName)}{file.fileName}</Table.Cell>
-                                <Table.Cell>{file.transferSpeed}</Table.Cell>
-                                <Table.Cell textAlign='right'>{file.fileSize}</Table.Cell>
-                            </Table.Row>
-                        )
-                    })}
-                </Table.Body>
-            </Table>
+            <div>
+                Show <Select compact placeholder='' options={viewOptions} defaultValue={viewOptions[0].key}/> files
+                <Table celled striped padded>
+                    <Table.Header >
+                        <Table.Row>
+                            <Table.HeaderCell width={12}><Icon name='save'/>File Name</Table.HeaderCell>
+                            <Table.HeaderCell width={2}><Icon name='file'/>Transfer Speed</Table.HeaderCell>
+                            <Table.HeaderCell width={2}><Icon name='database'/>File Size</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {props.files.map(file => {
+                            return(
+                                <Table.Row key={file.fileId}>
+                                    <Table.Cell>{getFileIcon(file.fileName)}{file.fileName}</Table.Cell>
+                                    <Table.Cell>{file.transferSpeed}</Table.Cell>
+                                    <Table.Cell textAlign='right'>{file.fileSize}</Table.Cell>
+                                </Table.Row>
+                            )
+                        })}
+                    </Table.Body>
+                </Table>
+            </div>
         );
 }
 export default FileDetailsComponent;
