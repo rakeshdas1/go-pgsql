@@ -10,10 +10,10 @@ export const TaskDetailsComponent = () => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<FileModel[]>([]);
     useEffect(() => {
-        getTask(104)
+        getTask(97)
             .then(data => {
                 setTask(data);
-                getFilesForTask(data.taskId)
+                getFilesForTask(100, 0, data.taskId)
                     .then(data => setTaskFiles(data));
             })
     }, []);

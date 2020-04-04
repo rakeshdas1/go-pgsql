@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 import { FileModel } from '../../models/File.model';
+import './FilesTable.css';
 
 interface FileDetailsComponentProps{
     files: FileModel[];
@@ -84,17 +85,16 @@ const getFileIcon = (fileName: string) => {
 }
 export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props) => {
         return (
-            <Table celled striped>
-                <Table.Header>
+            <Table celled striped padded>
+                <Table.Header >
                     <Table.Row>
-                        <Table.HeaderCell><Icon name='save'/>File Name</Table.HeaderCell>
-                        <Table.HeaderCell><Icon name='file'/>Transfer Speed</Table.HeaderCell>
-                        <Table.HeaderCell><Icon name='database'/>File Size</Table.HeaderCell>
+                        <Table.HeaderCell width={12}><Icon name='save'/>File Name</Table.HeaderCell>
+                        <Table.HeaderCell width={2}><Icon name='file'/>Transfer Speed</Table.HeaderCell>
+                        <Table.HeaderCell width={2}><Icon name='database'/>File Size</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {props.files.map(file => {
-                        console.log(file)
                         return(
                             <Table.Row key={file.fileId}>
                                 <Table.Cell>{getFileIcon(file.fileName)}{file.fileName}</Table.Cell>
