@@ -113,13 +113,15 @@ func (a *App) getAllFiles(w http.ResponseWriter, r *http.Request) {
 func (a *App) getFilesByTask(w http.ResponseWriter, r *http.Request) {
 	vars := r.URL.Query()
 	TaskID, err := strconv.Atoi(vars.Get("task_id"))
+	limit, err := strconv.Atoi(vars.Get("limit"))
+	offset, err := strconv.Atoi(vars.Get("offset"))
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	// tf := taskFile{}
 	f := file{}
-	taskFilesForID, err := f.getFilesByTaskID(a.DB, TaskID)
+	taskFilesForID, err := f.getFilesByTaskID(a.DB, TaskID, limit, offset)
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:

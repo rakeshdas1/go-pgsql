@@ -19,8 +19,8 @@ func (f *file) getFileByID(db *sql.DB, fileID int) error {
 	return db.QueryRow("SELECT * FROM backups.files WHERE file_id=$1", fileID).Scan(&f.FileID, &f.FileName, &f.UploadedSize, &f.Percentage, &f.Eta, &f.FileSize, &f.TransferSpeed, &f.TaskID)
 }
 
-func (f *file) getFilesByTaskID(db *sql.DB, taskID int) ([]file, error) {
-	rows, err := db.Query("SELECT * FROM backups.get_file_details_by_task_id($1)", taskID)
+func (f *file) getFilesByTaskID(db *sql.DB, taskID int, limit int, offset int) ([]file, error) {
+	rows, err := db.Query("SELECT * FROM backups.get_file_details_by_task_id($1) ORDER BY file_id LIMIT $2 OFFSET $3", taskID, limit, offset)
 	if err != nil {
 		return nil, err
 	}
