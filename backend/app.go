@@ -7,10 +7,11 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 )
 
 type App struct {
@@ -29,6 +30,22 @@ func (a *App) Initialize(user, password, dbname string) {
 	a.Router = mux.NewRouter()
 	a.initializeRoutes()
 	log.Println("Running server on http://localhost:8010")
+	reportProblem := func(ev pq.ListenerEventType, err error) {
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}
+
+	listener := pq.NewListener(connectionString, 10*time.Second, time.Minute, reportProblem)
+	err = listener.Listen("events")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Start monitoring PostgreSQL...")
+	for {
+		waitForNotification(listener)
+	}
 }
 
 func (a *App) Run(addr string) {
