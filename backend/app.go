@@ -57,7 +57,7 @@ func (a *App) Run(addr string) {
 	handlerHeaders := handlers.AllowedHeaders(allowedHeaders)
 	handlerMethods := handlers.AllowedMethods(allowedMethods)
 	handlerOrigins := handlers.AllowedOrigins(allowOrigins)
-	log.Fatal(http.ListenAndServe(":8010", handlers.CORS(handlerHeaders, handlerMethods, handlerOrigins)(a.Router)))
+	log.Fatal(http.ListenAndServe(addr, handlers.CORS(handlerHeaders, handlerMethods, handlerOrigins)(a.Router)))
 }
 
 func (a *App) getTask(w http.ResponseWriter, r *http.Request) {
