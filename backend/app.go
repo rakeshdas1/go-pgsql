@@ -19,8 +19,8 @@ type App struct {
 	DB     *sql.DB
 }
 
-func (a *App) Initialize(user, password, dbname string) {
-	connectionString := fmt.Sprintf("host=192.168.1.150 port=5432 user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+func (a *App) Initialize(dbhost, dbport, dbuser, dbpassword, dbname string) {
+	connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", dbhost, dbport, dbuser, dbpassword, dbname)
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {
