@@ -11,6 +11,7 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 	"github.com/lib/pq"
 )
 
@@ -46,6 +47,7 @@ func (a *App) Initialize(dbhost, dbport, dbuser, dbpassword, dbname string) {
 	for {
 		waitForNotification(listener)
 	}
+
 }
 
 func (a *App) Run(addr string) {
@@ -149,6 +151,18 @@ func (a *App) getFilesByTask(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusOK, taskFilesForID)
 }
+func (a *App) getCurrentRunningTask(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Got request for a websocket...")
+	u := websocket.Upgrader{}
+	conn, err := u.Upgrade(w, r, nil)
+	if err != nil {
+		log.Fatalf("Could not upgrade HTTP connection for websockets!, %s", err)
+	}
+	err = conn.WriteMessage(websocket.TextMessage, []byte("Test websockets"))
+	if err != nil {
+		log.Fatalf("Error sending socket message", err)
+	}
+}
 func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 	var message string = "Hit an endpoint such as /tasks or /task/{id} to retrieve data"
 	w.WriteHeader(http.StatusOK)
@@ -162,6 +176,7 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/files", a.getAllFiles).Methods("GET")
 	a.Router.HandleFunc("/file", a.getFile).Methods("GET")
 	a.Router.HandleFunc("/filesByTask", a.getFilesByTask).Methods("GET")
+	a.Router.HandleFunc("/currentRunningTask", a.getCurrentRunningTask).Methods("GET")
 	a.Router.HandleFunc("/", a.getRoot).Methods("GET")
 }
 func respondWithError(w http.ResponseWriter, code int, message string) {
