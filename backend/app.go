@@ -38,15 +38,14 @@ func (a *App) Initialize(dbhost, dbport, dbuser, dbpassword, dbname string) {
 	}
 
 	listener := pq.NewListener(connectionString, 10*time.Second, time.Minute, reportProblem)
-	err = listener.Listen("events")
-	if err != nil {
-		panic(err)
-	}
+	listener.Listen("events")
 
-	fmt.Println("Start monitoring PostgreSQL...")
-	for {
-		waitForNotification(listener)
-	}
+	go func() {
+		fmt.Println("Start monitoring PostgreSQL...")
+		for {
+			waitForNotification(listener)
+		}
+	}()
 
 }
 
@@ -153,7 +152,13 @@ func (a *App) getFilesByTask(w http.ResponseWriter, r *http.Request) {
 }
 func (a *App) getCurrentRunningTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Got request for a websocket...")
-	u := websocket.Upgrader{}
+	u := websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
 	conn, err := u.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatalf("Could not upgrade HTTP connection for websockets!, %s", err)
