@@ -16,8 +16,9 @@ import (
 )
 
 type App struct {
-	Router *mux.Router
-	DB     *sql.DB
+	Router        *mux.Router
+	DB            *sql.DB
+	eventListener *pq.Listener
 }
 
 func (a *App) Initialize(dbhost, dbport, dbuser, dbpassword, dbname string) {
@@ -36,17 +37,8 @@ func (a *App) Initialize(dbhost, dbport, dbuser, dbpassword, dbname string) {
 			fmt.Println(err.Error())
 		}
 	}
-
-	listener := pq.NewListener(connectionString, 10*time.Second, time.Minute, reportProblem)
-	listener.Listen("events")
-
-	go func() {
-		fmt.Println("Start monitoring PostgreSQL...")
-		for {
-			waitForNotification(listener)
-		}
-	}()
-
+	a.eventListener = pq.NewListener(connectionString, 10*time.Second, time.Minute, reportProblem)
+	a.eventListener.Listen("events")
 }
 
 func (a *App) Run(addr string) {
@@ -167,6 +159,17 @@ func (a *App) getCurrentRunningTask(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error sending socket message", err)
 	}
+	go func() {
+		fmt.Println("Start monitoring PostgreSQL...")
+		for {
+			waitForNotification(a.eventListener)
+			fmt.Println("Sending update through websocket...")
+			err = conn.WriteMessage(websocket.TextMessage, waitForNotification(a.eventListener))
+			if err != nil {
+				log.Fatalf("Error sending socket message", err)
+			}
+		}
+	}()
 }
 func (a *App) getRoot(w http.ResponseWriter, r *http.Request) {
 	var message string = "Hit an endpoint such as /tasks or /task/{id} to retrieve data"

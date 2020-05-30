@@ -8,7 +8,7 @@ import (
 	"github.com/lib/pq"
 )
 
-func waitForNotification(l *pq.Listener) {
+func waitForNotification(l *pq.Listener) []byte {
 	for {
 		select {
 		case n := <-l.Notify:
@@ -18,10 +18,10 @@ func waitForNotification(l *pq.Listener) {
 			err := json.Indent(&prettyJSON, []byte(n.Extra), "", "\t")
 			if err != nil {
 				fmt.Println("Error processing JSON: ", err)
-				return
+				return nil
 			}
-			// fmt.Println(string(prettyJSON.Bytes()))
-			return
+			fmt.Println(string(prettyJSON.Bytes()))
+			return []byte(n.Extra)
 		}
 	}
 }
