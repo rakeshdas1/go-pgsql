@@ -5,14 +5,15 @@ import { Header, Grid, Icon, Popup } from 'semantic-ui-react';
 import FileDetailsComponent from './FilesTable';
 import './TaskDetails.css';
 import { FileModel } from '../../models/File.model';
-interface TaskDetailsComponentInputProps {
-    taskID: number;
+import { RouteComponentProps } from 'react-router-dom';
+interface TaskDetailsComponentRouteParams extends RouteComponentProps<{ taskId: string }>{
+    // taskID: number;
 }
-export const TaskDetailsComponent: React.SFC<TaskDetailsComponentInputProps> = (props) => {
+export const TaskDetailsComponent = (props:TaskDetailsComponentRouteParams) => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<FileModel[]>([]);
     useEffect(() => {
-        getTask(props.taskID)
+        getTask(Number(props.match.params.taskId))
             .then(data => {
                 setTask(data);
                 getFilesForTask(100, 0, data.taskId)
