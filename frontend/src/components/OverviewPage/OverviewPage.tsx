@@ -9,17 +9,18 @@ export const TasksOverviewComponent = () => {
     const [latestTask, setLatestTask] = useState<TaskModel>();
     const [recentTasks, setRecentTasks] = useState<TaskModel[]>();
     useEffect(() => {
+        getNTasks(5)
+            .then(data => {
+                setRecentTasks(data);
+            })
+    }, []);
+
+    useEffect(() => {
         getLastRunTask()
             .then(data => {
                 setLatestTask(data);
             });
     }, []);
-    useEffect(() => {
-        getNTasks(5)
-            .then(data => {
-                setRecentTasks(data);
-            })
-    }, [])
     return (
             <div className="task-page">
                 <h1>Last run task: </h1>

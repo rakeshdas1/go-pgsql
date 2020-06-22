@@ -17,14 +17,28 @@ export const RecentTasksComponent: React.SFC<RecentTasksComponentProps> = (props
     }
     const panels = recentTasks?.map((task: TaskModel, idx: number) => {
         const accContent:AccordionContentProps = <TaskComponent task={task}></TaskComponent>
-        return {
-            key: `panel-${idx}`,
-            title: {
-                content: task.taskId,
-                icon: 'checkmark',
-            },
-            content: {content:accContent}
+        let accDetails;
+        if (task.completed) {
+            accDetails = {
+                key: `panel-${idx}`,
+                title: {
+                    content: task.taskId,
+                    icon: 'checkmark',
+                },
+                content: {content:accContent}
+            }
         }
+        else {
+            accDetails = {
+                key: `panel-${idx}`,
+                title: {
+                    content: task.taskId,
+                    icon: 'spinner'
+                },
+                content: {content:accContent}
+            }
+        }
+        return accDetails;
     });
     return (
         <Accordion fluid styled

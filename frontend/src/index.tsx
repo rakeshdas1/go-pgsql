@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
-import TasksOverviewComponent from './components/OverviewPage/OverviewPage';
-import { TaskDetailsComponent } from './components/TaskDetails/TaskDetails';
 import RootPage from './components/RootPage/Root';
 
 ReactDOM.render(

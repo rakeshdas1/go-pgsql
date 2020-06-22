@@ -69,6 +69,8 @@ const getFileIcon = (fileName: string) => {
             )
         case 'log':
         case 'txt':
+        case 'sub':
+        case 'srt':
             return (
                 <Icon name='file text'/>
             )
@@ -95,7 +97,7 @@ export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props)
                 <Table celled striped padded>
                     <Table.Header >
                         <Table.Row>
-                            <Table.HeaderCell width={12}><Icon name='save'/>File Name</Table.HeaderCell>
+                            <Table.HeaderCell width={12}><Icon name='text cursor'/>File Name</Table.HeaderCell>
                             <Table.HeaderCell width={2}><Icon name='file'/>Transfer Speed</Table.HeaderCell>
                             <Table.HeaderCell width={2}><Icon name='database'/>File Size</Table.HeaderCell>
                         </Table.Row>

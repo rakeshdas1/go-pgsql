@@ -7,7 +7,7 @@ import './TaskDetails.css';
 import { FileModel } from '../../models/File.model';
 import { RouteComponentProps } from 'react-router-dom';
 interface TaskDetailsComponentRouteParams extends RouteComponentProps<{ taskId: string }>{
-    // taskID: number;
+
 }
 export const TaskDetailsComponent = (props:TaskDetailsComponentRouteParams) => {
     const [task, setTask] = useState<TaskModel>();
