@@ -5,12 +5,14 @@ import { Header, Grid, Icon, Popup } from 'semantic-ui-react';
 import FileDetailsComponent from './FilesTable';
 import './TaskDetails.css';
 import { FileModel } from '../../models/File.model';
-
-export const TaskDetailsComponent = () => {
+interface TaskDetailsComponentInputProps {
+    taskID: number;
+}
+export const TaskDetailsComponent: React.SFC<TaskDetailsComponentInputProps> = (props) => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<FileModel[]>([]);
     useEffect(() => {
-        getTask(97)
+        getTask(props.taskID)
             .then(data => {
                 setTask(data);
                 getFilesForTask(100, 0, data.taskId)

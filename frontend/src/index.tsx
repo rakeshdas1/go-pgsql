@@ -9,8 +9,8 @@ import { TaskDetailsComponent } from './components/TaskDetails/TaskDetails';
 ReactDOM.render(
   <React.StrictMode>
     <Container>
-      {/* <TaskPageComponent /> */}
-      <TaskDetailsComponent/>
+      <TaskPageComponent />
+      {/* <TaskDetailsComponent/> */}
     </Container>
   </React.StrictMode>,
   document.getElementById('root')
