@@ -52,9 +52,10 @@ export const TaskDetailsComponent = (props:TaskDetailsComponentRouteParams) => {
             <Grid divided='vertically'>
                 <Grid.Row columns={2}>
                     <div>
-                        <Header size='medium'><Icon name='folder'/>Source: {task?.source}</Header><br/>
+                        <Header size='medium'><Icon name='folder'/>Source: {task?.source}</Header>
                         <Header size='medium'><Icon name='cloud upload'/>Destination: {task?.destination}</Header>
                         <Header size='medium'><Icon name='file'/>Number of files: {task?.totalNumberOfChecks}</Header>
+                        <Header size='medium'><Icon name='database'/>Total Size: {task?.totalSize}</Header>
                         {startAndEndTimeItems(task?.startedAt, task?.endedAt)}
                         <Header size='medium'>File details:</Header>
                         <FileDetailsComponent files={taskFiles}></FileDetailsComponent>
