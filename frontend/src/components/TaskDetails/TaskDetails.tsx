@@ -7,7 +7,6 @@ import './TaskDetails.css';
 import { FileModel } from '../../models/File.model';
 import { RouteComponentProps } from 'react-router-dom';
 interface TaskDetailsComponentRouteParams extends RouteComponentProps<{ taskId: string }>{
-
 }
 const socket = new WebSocket('ws://localhost:8010/currentRunningTask');
 export const TaskDetailsComponent = (props:TaskDetailsComponentRouteParams) => {
@@ -29,7 +28,7 @@ export const TaskDetailsComponent = (props:TaskDetailsComponentRouteParams) => {
         return () => {
             socket.close();
         }
-    }, []);
+    }, [props.match.params.taskId]);
     const epochToLocalTime = (epochTime?: string):Date => {
         let d: Date = new Date(0);
         let epochSeconds:number = Number(epochTime);

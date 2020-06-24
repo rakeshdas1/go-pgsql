@@ -24,7 +24,7 @@ export const TasksOverviewComponent = () => {
     }, []);
     return (
         <div className="task-page">
-            <h1>Last run task: </h1>
+            <Header as="h2">Last run task: </Header>
             <TaskComponent task={latestTask}></TaskComponent>
             <br/>
             <Divider horizontal>
