@@ -93,7 +93,7 @@ const viewOptions = [
 export const FileDetailsComponent:React.SFC<FileDetailsComponentProps> = (props) => {
         return (
             <div>
-                Show <Select compact placeholder='' options={viewOptions} defaultValue={viewOptions[0].key}/> files
+                <div className="files-view-opt">Show <Select compact placeholder='' options={viewOptions} defaultValue={viewOptions[0].key}/> files</div>
                 <Table celled striped padded>
                     <Table.Header >
                         <Table.Row>
