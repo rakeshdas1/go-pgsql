@@ -4,6 +4,7 @@ import { TaskModel } from "../../models/Task.model";
 import { getLastRunTask, getNTasks } from "../../api/rcloneApi";
 import TaskComponent from "../Task/Task";
 import RecentTasksComponent from "../RecentTasks/RecentTasks";
+import { Divider, Header, Icon } from "semantic-ui-react";
 
 export const TasksOverviewComponent = () => {
     const [latestTask, setLatestTask] = useState<TaskModel>();
@@ -22,13 +23,18 @@ export const TasksOverviewComponent = () => {
             });
     }, []);
     return (
-            <div className="task-page">
-                <h1>Last run task: </h1>
-                <TaskComponent task={latestTask}></TaskComponent>
-                <hr></hr>
-                <h1>Recent tasks run:</h1>
-                <RecentTasksComponent recentTasks={recentTasks}></RecentTasksComponent>
-            </div>
+        <div className="task-page">
+            <h1>Last run task: </h1>
+            <TaskComponent task={latestTask}></TaskComponent>
+            <br/>
+            <Divider horizontal>
+                <Header as="h4">
+                    <Icon name='clock' />
+                    Recent Tasks
+                </Header>
+            </Divider>
+            <RecentTasksComponent recentTasks={recentTasks}></RecentTasksComponent>
+        </div>
     )
 }
 export default TasksOverviewComponent;
