@@ -8,7 +8,7 @@ import { FileModel } from '../../models/File.model';
 import { RouteComponentProps } from 'react-router-dom';
 interface TaskDetailsComponentRouteParams extends RouteComponentProps<{ taskId: string }> {
 }
-const socket = new WebSocket('ws://localhost:8010/currentRunningTask');
+let socket: WebSocket;
 export const TaskDetailsComponent = (props: TaskDetailsComponentRouteParams) => {
     const [task, setTask] = useState<TaskModel>();
     const [taskFiles, setTaskFiles] = useState<FileModel[]>([]);
@@ -19,6 +19,7 @@ export const TaskDetailsComponent = (props: TaskDetailsComponentRouteParams) => 
                 getFilesForTask(100, 0, data.taskId)
                     .then(data => setTaskFiles(data));
                 if (data.completed === false) {
+                    socket =  new WebSocket('ws://localhost:8010/currentRunningTask');
                     socket.onmessage = (evt: MessageEvent) => {
                         const data: File = JSON.parse(evt.data);
                         console.log(data);
@@ -26,7 +27,9 @@ export const TaskDetailsComponent = (props: TaskDetailsComponentRouteParams) => 
                 }
             });
         return () => {
-            socket.close();
+            if(socket) {
+                socket.close();
+            }
         }
     }, [props.match.params.taskId]);
     const epochToLocalTime = (epochTime?: string): Date => {
