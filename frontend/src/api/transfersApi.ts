@@ -7,6 +7,6 @@ export const getAllTransfers = async (): Promise<TransferModel[]> => {
     return await res.json();
 }
 export const getNTransfers = async (transfers: number = 25): Promise<TransferModel[]> => {
-    const res = await fetch(`${postgrestApiUrl}/transfers?limit=${transfers}`)
+    const res = await fetch(`${postgrestApiUrl}/transfers?limit=${transfers}&order=time.desc`)
     return await res.json();
 }
